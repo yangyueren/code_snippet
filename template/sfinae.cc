@@ -48,6 +48,7 @@ void test_append() {
   // std::cout << "append v.size " << v.size() << std::endl;
 }
 
+// decltype is easy to specify sth is statisfied, but not easy to specify not statisfied.
 template <typename C, typename T>
 auto decl_append(C &container, T *ptr, size_t size)
     -> decltype(declval<C &>().reserve(1U), void()) {
@@ -106,10 +107,44 @@ void test_tag_dispatch_append() {
   std::cout << "append v.size " << v.size() << std::endl;
 }
 
+
+
+
+
+template <typename C, typename T>
+void constexpr_append(C &container, T *ptr, size_t size) {
+    std::cout << "constexpr_append" << std::endl;
+    if constexpr(decl_has_reserve<C>::value){
+        std::cout << "has reserve" << std::endl;
+        container.reserve(container.size() + size);
+    }
+    for (size_t i = 0; i < size; i++) {
+        // container.push_back(ptr[i]);
+    }
+
+}
+ 
+void test_constexpr_append(){
+    std::cout << "test_constexpr_append" << std::endl;
+    // std::vector<int> v;
+    int v;
+    int p[5] = {0, 1, 2, 3, 4};
+    constexpr_append(v, p, 5);
+    // std::cout << "append v.size " << v.size() << std::endl;
+
+}
+
+
+
+
+
+
+
 int main() {
   test_has_reserve();
   test_append();
   test_decl_append();
   test_tag_dispatch_append();
+  test_constexpr_append();
   return 0;
 }
