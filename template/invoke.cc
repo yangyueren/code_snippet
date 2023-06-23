@@ -22,6 +22,7 @@ void test_invoke_constexpr() {
   }) << std::endl;
 }
 
+// below two invoke_sfinae must be disjoin, otherwise redefinition
 template <typename F,
           std::enable_if_t<std::is_void_v<std::invoke_result_t<F>>, int> = 0>
 auto invoke_sfinae(F f) {
