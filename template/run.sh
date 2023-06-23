@@ -1,4 +1,4 @@
 
 cmake -B build
 cmake --build build 
-build/sfinae
+build/invoke
