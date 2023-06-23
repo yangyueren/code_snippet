@@ -2,6 +2,10 @@
 #include <type_traits>
 #include <vector>
 using namespace std;
+
+// alse refer to:
+// https://github.com/archibate/sfinae-example/blob/master/main.cpp
+
 template <typename T> struct has_reserve {
 
   struct good {
@@ -48,7 +52,8 @@ void test_append() {
   // std::cout << "append v.size " << v.size() << std::endl;
 }
 
-// decltype is easy to specify sth is statisfied, but not easy to specify not statisfied.
+// decltype is easy to specify sth is statisfied, but not easy to specify not
+// statisfied.
 template <typename C, typename T>
 auto decl_append(C &container, T *ptr, size_t size)
     -> decltype(declval<C &>().reserve(1U), void()) {
@@ -95,7 +100,6 @@ void tag_dispatch_append(C &container, T *ptr, size_t size) {
 
   // they are same.
   _append(container, ptr, size, decl_has_reserve<C>{});
-          
 }
 
 void test_tag_dispatch_append() {
@@ -107,38 +111,26 @@ void test_tag_dispatch_append() {
   std::cout << "append v.size " << v.size() << std::endl;
 }
 
-
-
-
-
 template <typename C, typename T>
 void constexpr_append(C &container, T *ptr, size_t size) {
-    std::cout << "constexpr_append" << std::endl;
-    if constexpr(decl_has_reserve<C>::value){
-        std::cout << "has reserve" << std::endl;
-        container.reserve(container.size() + size);
-    }
-    for (size_t i = 0; i < size; i++) {
-        // container.push_back(ptr[i]);
-    }
-
-}
- 
-void test_constexpr_append(){
-    std::cout << "test_constexpr_append" << std::endl;
-    // std::vector<int> v;
-    int v;
-    int p[5] = {0, 1, 2, 3, 4};
-    constexpr_append(v, p, 5);
-    // std::cout << "append v.size " << v.size() << std::endl;
-
+  std::cout << "constexpr_append" << std::endl;
+  if constexpr (decl_has_reserve<C>::value) {
+    std::cout << "has reserve" << std::endl;
+    container.reserve(container.size() + size);
+  }
+  for (size_t i = 0; i < size; i++) {
+    // container.push_back(ptr[i]);
+  }
 }
 
-
-
-
-
-
+void test_constexpr_append() {
+  std::cout << "test_constexpr_append" << std::endl;
+  // std::vector<int> v;
+  int v;
+  int p[5] = {0, 1, 2, 3, 4};
+  constexpr_append(v, p, 5);
+  // std::cout << "append v.size " << v.size() << std::endl;
+}
 
 int main() {
   test_has_reserve();
