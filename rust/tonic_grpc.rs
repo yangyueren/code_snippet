@@ -272,3 +272,20 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     Ok(())
 }
+
+/*
+
+cpp
+(py38) (base) ➜  yyr2 ✗ ../bazel-bin/yyr2/cpp/benchrpc client 1000000 
+总请求: 1000000, 成功响应: 1000000
+Latency stats: p50: 84μs, p99: 122μs, max: 3265μs
+总耗时: 23.1861s, QPS: 43129.2
+
+rust
+(py38) (base) ➜  yyr2 ✗ ./target/release-with-debug/benchrpc client 10000000
+客户端启动，连接到 http://[::1]:50051，发送 10000000 个请求
+总请求: 10000000, 成功响应: 10000000
+Latency stats: p50: 2297μs, p99: 3309μs, max: 7882μs
+总耗时: 34.847s, QPS: 286969.87
+
+*/
