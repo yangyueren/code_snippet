@@ -6,6 +6,8 @@ target_link_libraries(streaming_echo_client PRIVATE z)
 target_link_libraries(streaming_echo_server PRIVATE z)
 
 
+- POOL_SIZE = 1000:
+
 Latency statistics (μs):
 Median: 8237
 90th percentile: 9885
@@ -22,6 +24,17 @@ Median: 8237
 Max: 15693
 QPS: 91630.4
 Total count: 11500000
+
+
+- POOL_SIZE = 20:
+
+Latency statistics (μs):
+Median: 256
+90th percentile: 308
+99th percentile: 370
+Max: 4300
+QPS: 83814
+Total count: 3500000
 
 */
 
